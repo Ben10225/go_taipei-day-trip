@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>台北一日遊</title>
+
+  <link rel="stylesheet" href="/public/css/index.css">
+</head>
+<body>
+  <div class="wrapper">
+    <nav>
+      <div class="nav_bar">
+        <a href="/">台北一日遊</a>
+        <ul>
+          <li class="schedule">預定行程</li>
+          <li class="sign_in_up">登入/註冊</li>
+        </ul>
+      </div>
+    </nav>
+    <div class="nav_box"></div>
+    <section>
+      <div class="slogan_box">
+        <div class="slogan">
+          <h4>輕鬆享受台北一日悠閒</h4>
+          <h6>探索每個角落，體驗城市的深度旅遊行程</h6>
+          <div class="search">
+            <div class="search_bar">
+              <input class="keyword" type="text" placeholder="輸入景點名稱查詢" onclick="showCategory()">
+              <input class="btn_bg" type="text" onclick="keywordSelect()" readonly>
+              <div class="icon_box">
+                <div class="search_icon"></div>
+              </div>
+            </div>
+            <div class="category_box">
+              <ul class="category_ul">
+                <!-- <li>公共藝術</li>
+                <li>宗教信仰</li>
+                <li>歷史建築</li>
+                <li>親子共遊</li>
+                <li>其他</li>
+                <li>戶外踏青</li>
+                <li>藍色公路</li>
+                <li>養生溫泉</li>
+                <li>單車遊蹤</li> -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero_section_outter">
+        <div class="hero_section"></div>
+      </div>
+    </section>
+    <div class="attractions_outter">
+      <div class="attractions_group">
+        <!-- <h2 class="error_message">Error</h2> -->
+        <!-- <div class="attraction">
+          <div class="attraction_img">
+            <div class="attraction_name_group">
+              <h6 class="attraction_name">景點名稱</h6>
+            </div>
+          </div>
+          <div class="infos">
+            <h6 class="mrt_station">捷運站</h6>
+            <h6 class="category">分類</h6>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <footer>
+      <p>COPYRIGHT © 2022 台北一日遊</p>
+      <div class="target"></div>
+    </footer>
+  </div>
+
+  <script type="module" src="/public/js/index/index.js"></script>
+</body>
+</html>

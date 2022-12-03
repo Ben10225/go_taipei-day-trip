@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attraction</title>
+
+  <link rel="stylesheet" href="/public/css/attraction.css">
+</head>
+<body>
+  <div class="wrapper">
+    <nav>
+      <div class="nav_bar">
+        <a href="/">台北一日遊</a>
+        <ul>
+          <li class="schedule">預定行程</li>
+          <li class="sign_in_up">登入/註冊</li>
+        </ul>
+      </div>
+    </nav>
+    <div class="nav_box"></div>
+    <section>
+      <div class="reserve_container_outter">
+        <div class="reserve_container">
+          <div class="img_box">
+            <div class="img_setup">
+              <div class="left_arrow"></div>
+              <div class="right_arrow"></div>
+              <div class="circle_box">
+                <!-- <div class="circle circle_black"></div> -->
+              </div>
+              <div class="loads">
+                <!-- <div class="load"></div> -->
+              </div>
+              <div class="img"></div>
+            </div>
+          </div>
+          <div class="detail_box">
+            <h2 class="attraction_name"></h2>
+            <h6><span class="category"></span> at <span class="mrt"></span></h6>
+            <div class="reserve_box">
+              <h4>訂購導覽行程</h4>
+              <p class="intro">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+              <h4 class="reserve_box_inline">選擇日期：</h4>
+              <input type="date"><br>
+              <h4 class="reserve_box_inline">選擇時間：</h4>
+
+              <input class="radio" type="radio" onclick="morningClick()" id="morning" name="time" value="morning" checked>
+              <label class="morning" for="morning">上半天</label>
+              <input class="radio" type="radio" onclick="eveningClick()" id="evening" name="time" value="evening">
+              <label class="evening" for="evening">下半天</label><br>
+
+              <h4 class="reserve_box_inline">導覽費用：</h4>
+              <p class="reserve_box_inline">新台幣 <span class="cost">2000</span> 元</p><br>
+              <button>開始預約行程</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <hr>
+      <div class="content_box">
+        <div class="content">
+          <p class="details description"></p>
+          <div class="address">
+            <h4>景點地址：</h4>
+            <p class="details"></p>
+          </div>
+          <div class="transport">
+            <h4>交通方式：</h4>
+            <p class="details"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <p>COPYRIGHT © 2022 台北一日遊</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/public/js/attraction/attr.js"></script>
+</body>
+</html>
