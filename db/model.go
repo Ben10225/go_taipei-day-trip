@@ -1,12 +1,15 @@
 package db
 
 import (
+	"log"
 	"strconv"
 	"taipei-day-trip/structs"
 )
 
 func SelectAttractions(page, keyword string) ([]structs.NewReturn, bool) {
-	db := InitDb()
+	db := Db
+	// 確認是用同一個 pool，沒有多開
+	// fmt.Println(db)
 
 	startIndex, _ := strconv.Atoi(page)
 	startIndex *= 12
@@ -32,8 +35,7 @@ func SelectAttractions(page, keyword string) ([]structs.NewReturn, bool) {
 }
 
 func SelectAttractionById(id int) *structs.NewReturn {
-
-	db := InitDb()
+	db := Db
 	var attraction structs.NewReturn
 
 	err := db.Table("attractions AS a").Select("a.id, a.name, c.category_name, a.description, a.address, a.transport, m.mrt_name, a.lat, a.lng, GROUP_CONCAT( DISTINCT i.url ORDER BY i.pid ASC SEPARATOR ',') AS urls").Joins("JOIN categories AS c ON a.category_id = c.cid").Joins("JOIN mrts AS m ON a.mrt_id = m.mid").Joins("JOIN images AS i ON i.iid = a.id").Where("a.id=?", id).Group("a.id, c.category_name, a.name, a.description, a.address, a.transport, m.mrt_name, a.lat, a.lng").First(&attraction).Error
@@ -45,11 +47,37 @@ func SelectAttractionById(id int) *structs.NewReturn {
 }
 
 func SelectCategories() []string {
-	db := InitDb()
+	db := Db
 	var cateLst []string
 	err := db.Table("categories").Select("category_name").Find(&cateLst).Error
 	if err != nil {
 		return nil
 	}
 	return cateLst
+}
+
+func CheckAndInsertUser(name, email, password string) bool {
+	db := Db
+	var user structs.UserData
+	err := db.Table("users").Where("email = ?", email).First(&user).Error
+	if err != nil {
+		log.Println(err)
+		user = structs.UserData{Name: name, Email: email, Password: password}
+		err = db.Table("users").Create(&user).Error
+		if err != nil {
+			log.Println(err)
+		}
+		return true
+	}
+	return false
+}
+
+func GetUserByEmail(email string) (*structs.UserData, bool) {
+	db := Db
+	var user structs.UserData
+	err := db.Table("users").Select("uid, name, email, password").Where("email = ?", email).First(&user).Error
+	if err != nil {
+		return nil, false
+	}
+	return &user, true
 }

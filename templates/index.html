@@ -8,14 +8,43 @@
 
   <link rel="stylesheet" href="/public/css/index.css">
 </head>
+
 <body>
   <div class="wrapper">
+    <div class="sign_page">
+      <div class="page_box si">
+        <div class="top_decorate"></div>
+        <h2 class="h2 si">登入會員帳號</h2>
+        <div class="exit_icon si"></div>
+        <input class="email si" type="email" placeholder="輸入電子信箱">
+        <input class="pwd si" type="password" placeholder="輸入密碼 需含小寫英文及數字">
+        <button class="btn si" onclick="signIn();">登入帳戶</button>
+        <div class="caution_box si">
+          <p class="msg si"></p>
+        </div>
+        <p class="p si">還沒有帳戶？<span class="to_sign_up" onclick="showSignUp();">點此註冊</span></p>
+      </div>
+      <div class="page_box su">
+        <div class="top_decorate"></div>
+        <h2 class="h2 su">註冊會員帳號</h2>
+        <div class="exit_icon su"></div>
+        <input class="name su" type="text" placeholder="輸入姓名">
+        <input class="email su" type="email" placeholder="輸入電子信箱">
+        <input class="pwd su" type="password" placeholder="輸入密碼 需含小寫英文及數字">
+        <button class="btn su" onclick="signUp();">註冊新帳戶</button>
+        <div class="caution_box su">
+          <p class="msg su"></p>
+        </div>
+        <p class="p su">已經有帳戶了？<span class="to_sign_in" onclick="toggleSignIn();">點此登入</span></p>
+      </div>
+    </div>
     <nav>
       <div class="nav_bar">
         <a href="/">台北一日遊</a>
         <ul>
-          <li class="schedule">預定行程</li>
-          <li class="sign_in_up">登入/註冊</li>
+          <li class="schedule li_out">預定行程</li>
+          <li class="sign_in_up li_out" onclick="showSignIn();">登入/註冊</li>
+          <li class="sign_out li_out" onclick="signOut();">登出系統</li>
         </ul>
       </div>
     </nav>
@@ -27,8 +56,8 @@
           <h6>探索每個角落，體驗城市的深度旅遊行程</h6>
           <div class="search">
             <div class="search_bar">
-              <input class="keyword" type="text" placeholder="輸入景點名稱查詢" onclick="showCategory()">
-              <input class="btn_bg" type="text" onclick="keywordSelect()" readonly>
+              <input class="keyword" type="text" placeholder="輸入景點名稱查詢" onclick="showCategory();">
+              <input class="btn_bg" type="text" onclick="keywordSelect();" readonly>
               <div class="icon_box">
                 <div class="search_icon"></div>
               </div>

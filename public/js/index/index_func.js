@@ -4,6 +4,7 @@ let page = 0;
 let sum = 0;
 let keywordValue = "";
 let isload = false;
+let showCt = 0;
 
 /*  infiniteScroll  */
 const target = document.querySelector('.target');
@@ -180,6 +181,12 @@ function createDOM(data, i, index){
   category.appendChild(categoryNode);
   category.className = "category";
   infosInside.appendChild(category);
+  // preload
+  let link = document.createElement('link');
+  link.href = data.data[i].images[0];
+  link.rel = "preload";
+  link.as = "image";
+  document.head.appendChild(link);
 }
 
 
@@ -193,6 +200,8 @@ function createError(err){
   attractionsGroup.appendChild(errMsg);
 }
 
+
+
 // default 適合用在主要的
 export default {
   catchCategories,
@@ -201,5 +210,6 @@ export default {
   showCategory,
   page,
   observer,
-  target
+  target,
+  showCt
 }

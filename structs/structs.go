@@ -13,3 +13,10 @@ type NewReturn struct {
 	Urls          string
 	Images        []string `gorm:"type:text"`
 }
+
+type UserData struct {
+	Uid      int
+	Name     string
+	Email    string
+	Password string
+}
