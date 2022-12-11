@@ -127,8 +127,16 @@ func Categories(c *gin.Context) {
 }
 
 func Auth(c *gin.Context) {
-	_, err := c.Cookie("token")
+	token, err := c.Cookie("token")
 	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"error": true,
+		})
+		return
+	}
+	_, err = utility.ParseToken(token)
+	if err != nil {
+		c.SetCookie("token", "", -1, "/", "http://0.0.0.0:3002", false, true)
 		c.JSON(http.StatusOK, gin.H{
 			"error": true,
 		})
@@ -205,14 +213,11 @@ func SignIn(c *gin.Context) {
 
 	if pwdVerify {
 		token := utility.GenerateJWT(user.Uid, user.Name)
-		_, err := c.Cookie("token")
-		if err != nil {
-			c.SetCookie("token", token, 0, "/", "http://0.0.0.0:3002", false, true)
-			c.JSON(http.StatusOK, gin.H{
-				"data": "OK",
-			})
-			return
-		}
+		c.SetCookie("token", token, 0, "/", "http://0.0.0.0:3002", false, true)
+		c.JSON(http.StatusOK, gin.H{
+			"data": "OK",
+		})
+		return
 	}
 
 	c.JSON(http.StatusBadRequest, gin.H{
