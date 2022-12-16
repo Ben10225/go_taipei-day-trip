@@ -13,3 +13,7 @@ func Index(c *gin.Context) {
 func AttractionPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "attraction.html", nil)
 }
+
+func BookingPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "booking.html", nil)
+}

@@ -15,8 +15,34 @@ type NewReturn struct {
 }
 
 type UserData struct {
-	Uid      int
+	Uuid     string
 	Name     string
 	Email    string
 	Password string
+}
+
+type BookingData struct {
+	Uuid          string
+	Attraction_id string
+	Date          string
+	Time          string
+	Price         int
+}
+
+type BookingDetails struct {
+	Attraction_id string
+	Date          string
+	Time          string
+	Price         int
+	Name          string
+	Address       string
+	Url           string
+	Bid           int
+}
+
+type GetBookingData struct {
+	Data  BookingDetails
+	Date  string
+	Time  string
+	Price string
 }

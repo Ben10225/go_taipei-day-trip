@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>台北一日遊</title>
 
+  <link rel="stylesheet" href="/public/css/base.css">
   <link rel="stylesheet" href="/public/css/index.css">
 </head>
 
@@ -42,7 +43,7 @@
       <div class="nav_bar">
         <a href="/">台北一日遊</a>
         <ul>
-          <li class="schedule li_out">預定行程</li>
+          <li class="schedule li_out" onclick="toBooking()">預定行程</li>
           <li class="sign_in_up li_out" onclick="showSignIn();">登入/註冊</li>
           <li class="sign_out li_out" onclick="signOut();">登出系統</li>
         </ul>
@@ -104,6 +105,7 @@
     </footer>
   </div>
 
+  <script type="module" src="/public/js/nav/nav_setting.js"></script>
   <script type="module" src="/public/js/index/index.js"></script>
 </body>
 </html>

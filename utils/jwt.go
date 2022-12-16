@@ -1,4 +1,4 @@
-package utility
+package utils
 
 import (
 	"fmt"
@@ -11,16 +11,16 @@ const SECRETKEY = "secretttttt" //私鑰
 
 // 自定義 Claims
 type CustomClaims struct {
-	UserId int
-	Name   string
+	Uuid string
+	Name string
 	jwt.StandardClaims
 }
 
-func GenerateJWT(uid int, name string) string {
+func GenerateJWT(uuid string, name string) string {
 	maxAge := 60 * 60 * 24
 	customClaims := &CustomClaims{
-		UserId: uid, // 用戶 id
-		Name:   name,
+		Uuid: uuid, // 用戶 id
+		Name: name,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Duration(maxAge*7) * time.Second).Unix(),
 			// 過期時間，必須設置

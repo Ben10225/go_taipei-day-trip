@@ -1,9 +1,9 @@
 package main
 
 import (
+	"taipei-day-trip/api"
 	"taipei-day-trip/db"
 	"taipei-day-trip/handlers"
-	"taipei-day-trip/users"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,13 +21,19 @@ func main() {
 
 	router.GET("/", handlers.Index)
 	router.GET("/attraction/:id", handlers.AttractionPage)
-	router.GET("/api/attractions", users.Attractions)
-	router.GET("/api/attraction/:id", users.Attraction)
-	router.GET("/api/categories", users.Categories)
+	router.GET("/booking", handlers.BookingPage)
+	router.GET("/api/attractions", api.Attractions)
+	router.GET("/api/attraction/:id", api.Attraction)
+	router.GET("/api/categories", api.Categories)
 
-	router.GET("/api/user/auth", users.Auth)
-	router.POST("/api/user", users.SignUp)
-	router.PUT("/api/user/auth", users.SignIn)
-	router.DELETE("/api/user/auth", users.SignOut)
+	router.GET("/api/user/auth", api.Auth)
+	router.POST("/api/user", api.SignUp)
+	router.PUT("/api/user/auth", api.SignIn)
+	router.DELETE("/api/user/auth", api.SignOut)
+	router.GET("/api/user/auth/cookie", api.GetReserveData)
+
+	router.GET("/api/booking", api.GetBooking)
+	router.POST("/api/booking", api.CreateBooking)
+	router.DELETE("/api/booking", api.DeleteBooking)
 	router.Run(portNumber)
 }

@@ -1,4 +1,4 @@
-package utility
+package utils
 
 import (
 	"github.com/dlclark/regexp2"

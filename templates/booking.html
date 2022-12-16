@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>預定行程</title>
+
+  <link rel="stylesheet" href="/public/css/base.css">
+  <link rel="stylesheet" href="/public/css/booking.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="sign_page">
+      <div class="page_box si">
+        <div class="top_decorate"></div>
+        <h2 class="h2 si">登入會員帳號</h2>
+        <div class="exit_icon si"></div>
+        <input class="email si" type="email" placeholder="輸入電子信箱">
+        <input class="pwd si" type="password" placeholder="輸入密碼 需含小寫英文及數字">
+        <button class="btn si" onclick="signIn();">登入帳戶</button>
+        <div class="caution_box si">
+          <p class="msg si"></p>
+        </div>
+        <p class="p si">還沒有帳戶？<span class="to_sign_up" onclick="showSignUp();">點此註冊</span></p>
+      </div>
+      <div class="page_box su">
+        <div class="top_decorate"></div>
+        <h2 class="h2 su">註冊會員帳號</h2>
+        <div class="exit_icon su"></div>
+        <input class="name su" type="text" placeholder="輸入姓名">
+        <input class="email su" type="email" placeholder="輸入電子信箱">
+        <input class="pwd su" type="password" placeholder="輸入密碼 需含小寫英文及數字">
+        <button class="btn su" onclick="signUp();">註冊新帳戶</button>
+        <div class="caution_box su">
+          <p class="msg su"></p>
+        </div>
+        <p class="p su">已經有帳戶了？<span class="to_sign_in" onclick="toggleSignIn();">點此登入</span></p>
+      </div>
+    </div>
+    <nav>
+      <div class="nav_bar">
+        <a href="/">台北一日遊</a>
+        <ul>
+          <li class="schedule li_out" onclick="toBooking()">預定行程</li>
+          <li class="sign_in_up li_out" onclick="showSignIn();">登入/註冊</li>
+          <li class="sign_out li_out" onclick="signOut();">登出系統</li>
+        </ul>
+      </div>
+    </nav>
+    <div class="nav_box"></div>
+    <section>
+      <div class="booking_box">
+        <h3 class="user_title">您好，<span class="user_name"></span>，待預訂的行程如下：</h3>
+        <!-- <div class="booking_item">
+          <div class="img"></div>
+          <div class="icon_delete"></div>
+          <div class="content">
+            <h6>台北一日遊： <span class="attraction_name">平安鐘</span></h6>
+            <h5 class="date">日期：<span>2021-04-23</span></h5>
+            <h5 class="time">時間：<span>早上 9 點到下午 4 點</span></h5>
+            <h5 class="cost">費用：<span>新台幣 2000 元</span></h5>
+            <h5 class="address">地點：<span>臺北市 大安區忠孝東路4段</span></h5>
+          </div>
+        </div>
+        <div class="booking_item">
+          <div class="img"></div>
+          <div class="icon_delete"></div>
+          <div class="content">
+            <h6>台北一日遊： <span class="attraction_name">平安鐘</span></h6>
+            <h5 class="date">日期：<span>2021-04-23</span></h5>
+            <h5 class="time">時間：<span>早上 9 點到下午 4 點</span></h5>
+            <h5 class="cost">費用：<span>新台幣 2000 元</span></h5>
+            <h5 class="address">地點：<span>臺北市 大安區忠孝東路4段</span></h5>
+          </div>
+        </div> -->
+        <!-- <hr> -->
+      </div>
+      <div class="user_info_box">
+        <div class="content">
+          <h3>您的聯絡資訊</h3>
+          <label for="">聯絡姓名：</label>
+          <input type="text"><br>
+          <label for="">聯絡信箱：</label>
+          <input type="text"><br>
+          <label for="">手機號碼：</label>
+          <input type="text"><br>
+          <p>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
+        </div>
+        <hr>
+      </div>
+      <div class="credit_card_box">
+        <div class="content">
+          <h3>信用卡付款資訊</h3>
+          <label for="">卡片號碼：</label>
+          <input class="credit_pwd credit_input" type="text" maxlength="19" size="19">
+          <div class="expire_time">
+            <label for="">過期時間：</label>
+            <input class="exp_m credit_input" type="text" maxlength="2" size="2">
+            <span>&ensp;/&ensp;</span>
+            <input class="exp_y credit_input" type="text" maxlength="2" size="2">
+          </div>
+          <label for="">驗證密碼：</label>
+          <input class="credit_input" type="text" maxlength="3" size="3">
+        </div>
+        <hr>
+      </div>
+      <div class="total_box">
+        <div class="total">
+          <h6>總價：新台幣 <span class="total_cost">2000</span> 元</h6>
+          <button>確認訂購並付款</button>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <p>COPYRIGHT © 2022 台北一日遊</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/public/js/nav/nav_setting.js"></script>
+  <script type="module" src="/public/js/booking/booking.js"></script>
+</body>
+</html>

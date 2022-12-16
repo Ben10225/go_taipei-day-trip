@@ -139,6 +139,14 @@ function catchAttractions(pg, keyword){
 
 /*  create DOM with appendChild  */
 function createDOM(data, i, index){
+  
+  // preload
+  let link = document.createElement('link');
+  link.href = data.data[i].images[0];
+  link.rel = "preload";
+  link.as = "image";
+  document.head.appendChild(link);
+
   // 容器
   let attractionsGroup = document.querySelector(".attractions_group");
   // div attraction 
@@ -181,12 +189,6 @@ function createDOM(data, i, index){
   category.appendChild(categoryNode);
   category.className = "category";
   infosInside.appendChild(category);
-  // preload
-  let link = document.createElement('link');
-  link.href = data.data[i].images[0];
-  link.rel = "preload";
-  link.as = "image";
-  document.head.appendChild(link);
 }
 
 

@@ -1,9 +1,6 @@
-import attr from "./index_func.js"
 import nav from "../nav/nav_setting.js"
+import booking from "./booking_func.js"
 
-
-window.keywordSelect = attr.keywordSelect;
-window.showCategory = attr.showCategory;
 window.showSignIn = nav.showSignIn;
 window.showSignUp = nav.showSignUp;
 window.toggleSignIn = nav.toggleSignIn;
@@ -12,11 +9,9 @@ window.signUp = nav.signUp;
 window.signOut = nav.signOut;
 window.toBooking = nav.toBooking;
 
-
 nav.hideDisplayBug();
-nav.auth(false);
+booking.jumpToNextInput();
 
-attr.catchCategories();
-attr.catchAttractions(attr.page);
-
-attr.observer.observe(attr.target);
+(async()=>{
+  await nav.auth(false, "booking");
+})()

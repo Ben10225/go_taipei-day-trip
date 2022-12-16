@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
 
+  <link rel="stylesheet" href="/public/css/base.css">
   <link rel="stylesheet" href="/public/css/attraction.css">
 </head>
 
@@ -37,12 +38,19 @@
         </div>
         <p class="p su">已經有帳戶了？<span class="to_sign_in" onclick="toggleSignIn();">點此登入</span></p>
       </div>
+      <div class="page_box_c repeat">
+        <h3>此相同行程已排程，是否確認？</h3>
+        <div class="button_box">
+          <button class="check_yes repeat" onclick="pushRepeatBooking()">確認下訂</button>
+          <button class="check_no repeat" onclick="bookingRepeatOut()">另選時間</button>
+        </div>
+      </div>
     </div>
     <nav>
       <div class="nav_bar">
         <a href="/">台北一日遊</a>
         <ul>
-          <li class="schedule li_out">預定行程</li>
+          <li class="schedule li_out" onclick="toBooking()">預定行程</li>
           <li class="sign_in_up li_out" onclick="showSignIn();">登入/註冊</li>
           <li class="sign_out li_out" onclick="signOut();">登出系統</li>
         </ul>
@@ -71,18 +79,20 @@
             <div class="reserve_box">
               <h4>訂購導覽行程</h4>
               <p class="intro">以此景點為中心的一日行程，帶您探索城市角落故事</p>
-              <h4 class="reserve_box_inline">選擇日期：</h4>
-              <input type="date"><br>
+              <div class="date_box">
+                <h4 class="reserve_box_inline">選擇日期：</h4>
+                <input class="date" type="date" onchange="clickBtnOpen()">
+              </div>
               <h4 class="reserve_box_inline">選擇時間：</h4>
-
+    
               <input class="radio" type="radio" onclick="morningClick()" id="morning" name="time" value="morning" checked>
               <label class="morning" for="morning">上半天</label>
               <input class="radio" type="radio" onclick="eveningClick()" id="evening" name="time" value="evening">
               <label class="evening" for="evening">下半天</label><br>
-
+    
               <h4 class="reserve_box_inline">導覽費用：</h4>
               <p class="reserve_box_inline">新台幣 <span class="cost">2000</span> 元</p><br>
-              <button>開始預約行程</button>
+              <button class="">開始預約行程</button>
             </div>
           </div>
         </div>
@@ -108,6 +118,7 @@
     </footer>
   </div>
 
+  <script type="module" src="/public/js/nav/nav_setting.js"></script>
   <script type="module" src="/public/js/attraction/attr.js"></script>
 
 </body>

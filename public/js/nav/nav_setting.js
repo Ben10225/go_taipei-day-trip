@@ -1,3 +1,6 @@
+import bookingJS from "../booking/booking_func.js"
+import attr from "../attraction/attr_func.js"
+
 // dom
 const signInbtn = document.querySelector(".btn.si");
 const signUpbtn = document.querySelector(".btn.su");
@@ -12,6 +15,8 @@ const schedule = document.querySelector(".schedule");
 const SIcautionBox = document.querySelector(".caution_box.si");
 const SUcautionBox = document.querySelector(".caution_box.su");
 
+const repeatPageBox = document.querySelector(".page_box_c.repeat");
+
 // input
 const SUName = document.querySelector(".name.su");
 const SUEmail = document.querySelector(".email.su");
@@ -25,15 +30,21 @@ const PwdPattern = /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{2,}$/;
 
 let signInkeyWait = true;
 let signUpkeyWait = true;
+let userSignIn = false;
+let keepReserveData = null;
+
 
 /*  show signIn page  */
-function showSignIn(){
+function showSignIn(clickBy){
   if(!signPage.classList.contains("sign_page_show")){
     signPage.classList.add("sign_page_show");
   }
   setTimeout(()=>{
     signInPageBox.classList.add("page_box_show");
   }, 150)
+  if(clickBy){
+    keepReserveData = clickBy;
+  }
 }
 
 const inIcon = document.querySelector(".exit_icon.si");
@@ -67,6 +78,7 @@ upIcon.addEventListener("click", function upExit(){
 function fadeOut(boxClass, pressX){
   let pageBox = document.querySelector(boxClass);
   if(pressX){
+    keepReserveData = null;
     signPage.classList.remove("sign_page_show");
     setTimeout(()=>{
       SUName.value = "";
@@ -96,6 +108,7 @@ document.addEventListener("keydown", (e)=>{
   }
 })
 
+
 function pressEnter(e, callback, status){
   if(e.key == "Enter" && status == "signIn"){
     callback();
@@ -116,6 +129,7 @@ function pressEnter(e, callback, status){
 
 /*  sign in  */
 function signIn(){
+
   let validatedEmail = EmailPattern.test(SIEmail.value);
   let validatedPwd = PwdPattern.test(SIPwd.value);
 
@@ -132,15 +146,33 @@ function signIn(){
     return;
   }
 
+  let data = {
+    "email": SIEmail.value,
+    "password": SIPwd.value,
+    "reserve": false,
+  }
+
+  if(keepReserveData === "fromAttrBtn"){
+    const date = document.querySelector(".date");
+    const radio = document.querySelector("input[name='time']:checked");
+
+    if(date.value && radio.value){
+      data = {
+        "email": SIEmail.value,
+        "password": SIPwd.value,
+        "reserve": true,
+        "date": date.value,
+        "radio": radio.value,
+      }
+    }
+  }
+
   fetch("/api/user/auth", {
     method: "put",
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      "email": SIEmail.value,
-      "password": SIPwd.value,
-    }),
+    body: JSON.stringify(data),
   })
   .then((response) => response.json())
   .then((data) => {
@@ -212,16 +244,30 @@ function signUp(){
 }
 
 
-function auth(needRefresh){
-  fetch("/api/user/auth")
+function auth(needRefresh, page){
+  return fetch("/api/user/auth")
   .then((response) => response.json())
   .then((data) => {
     schedule.classList.remove("li_out");
     if(data.ok){
       signOutLi.classList.remove("li_out");
+      userSignIn = true;
+      if(page === "attraction"){
+        attr.getReserveData();
+      }else if(page === "booking"){
+        bookingJS.getBooking();
+        return;
+      }
     }
     if(data.error){
       signInUpLi.classList.remove("li_out");
+      if(page === "attraction"){
+        attr.reserveBtn.style.opacity = "1";
+        attr.reserveBtn.style.pointerEvents = "auto";
+        return;
+      }else if(page === "booking"){
+        window.location.href = "/";
+      }
     }
     if(needRefresh){
       history.go(0);
@@ -231,12 +277,17 @@ function auth(needRefresh){
 
 
 function signOut(){
+  const booking = window.location.href.split("/").pop();
   fetch("/api/user/auth", {
     method: "delete",
   })
   .then((response) => response.json())
   .then((data) => {
     if(data.ok){
+      if(booking === "booking"){
+        window.location.href = "/";
+        return
+      }
       history.go(0);
     }
   })
@@ -276,6 +327,39 @@ function hideDisplayBug(){
 }
 
 
+function signStatus(){
+  return userSignIn;
+}
+
+
+function toBooking(){
+  if(userSignIn){
+    window.location.href = "/booking"
+  }else{
+    showSignIn();
+  }
+}
+
+
+/*  show booking repeat checked page  */
+function bookingRepeatIn(){
+  if(!signPage.classList.contains("sign_page_show")){
+    signPage.classList.add("sign_page_show");
+  }
+  setTimeout(()=>{
+    repeatPageBox.classList.add("page_box_show");
+  }, 150)
+}
+
+function bookingRepeatOut(){
+  signPage.classList.remove("sign_page_show");
+
+  setTimeout(()=>{
+    repeatPageBox.classList.remove("page_box_show");
+  }, 80)
+}
+
+
 
 export default {
   signIn,
@@ -286,4 +370,8 @@ export default {
   showSignUp,
   toggleSignIn,
   hideDisplayBug,
+  signStatus,
+  toBooking,
+  bookingRepeatIn,
+  bookingRepeatOut,
 }
