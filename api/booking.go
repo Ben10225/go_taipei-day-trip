@@ -136,3 +136,40 @@ func DeleteBooking(c *gin.Context) {
 		})
 	}
 }
+
+func GetUserInfo(c *gin.Context) {
+	token, err := c.Cookie("token")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "未登入狀態",
+		})
+		return
+	}
+	payload, err := utils.ParseToken(token)
+	if err != nil {
+		c.SetCookie("token", "", -1, "/", "", false, true)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "未登入狀態",
+		})
+		return
+	}
+	uuid := payload.Uuid
+	userSlice := db.Get_user_info_by_uuid(uuid)
+	if userSlice == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   true,
+			"message": "伺服器錯誤",
+		})
+	}
+	name := userSlice[0]
+	email := userSlice[1]
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": gin.H{
+			"name":  name,
+			"email": email,
+		},
+	})
+}

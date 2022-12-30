@@ -43,6 +43,9 @@
       <div class="nav_bar">
         <a href="/">台北一日遊</a>
         <ul>
+          <li class="member_icon li_out">
+            <i class="fa-solid fa-user-gear"></i>
+          </li>
           <li class="schedule li_out" onclick="toBooking()">預定行程</li>
           <li class="sign_in_up li_out" onclick="showSignIn();">登入/註冊</li>
           <li class="sign_out li_out" onclick="signOut();">登出系統</li>
@@ -50,6 +53,12 @@
       </div>
     </nav>
     <div class="nav_box"></div>
+    <div class="wait">
+      <div class="row">
+        <h1>載入中</h1>
+        <div class="animation"></div>
+      </div>
+    </div>
     <section>
       <div class="booking_box">
         <h3 class="user_title">您好，<span class="user_name"></span>，待預訂的行程如下：</h3>
@@ -81,18 +90,30 @@
         <div class="content">
           <h3>您的聯絡資訊</h3>
           <label for="">聯絡姓名：</label>
-          <input type="text"><br>
+          <input type="text" class="contact_name"><br>
           <label for="">聯絡信箱：</label>
-          <input type="text"><br>
+          <input type="text" class="contact_email"><br>
           <label for="">手機號碼：</label>
-          <input type="text"><br>
+          <input type="text" class="contact_mobile"><br>
           <p>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
         </div>
         <hr>
       </div>
       <div class="credit_card_box">
         <div class="content">
-          <h3>信用卡付款資訊</h3>
+          <div class="credit_row">
+            <label for="">卡片號碼：</label>
+            <div class="tpfield credit_card_number" id="card-number"></div>
+          </div>
+          <div class="credit_row">
+            <label for="">過期時間：</label>
+            <div class="tpfield credit_card_time" id="card-expiration-date"></div>
+          </div>
+          <div class="credit_row">
+            <label for="">驗證密碼：</label>
+            <div class="tpfield credit_card_ccv" id="card-ccv"></div>
+          </div>
+          <!-- <h3>信用卡付款資訊</h3>
           <label for="">卡片號碼：</label>
           <input class="credit_pwd credit_input" type="text" maxlength="19" size="19">
           <div class="expire_time">
@@ -102,14 +123,14 @@
             <input class="exp_y credit_input" type="text" maxlength="2" size="2">
           </div>
           <label for="">驗證密碼：</label>
-          <input class="credit_input" type="text" maxlength="3" size="3">
+          <input class="credit_input" type="text" maxlength="3" size="3"> -->
         </div>
         <hr>
       </div>
       <div class="total_box">
         <div class="total">
-          <h6>總價：新台幣 <span class="total_cost">2000</span> 元</h6>
-          <button>確認訂購並付款</button>
+          <h6>總價：新台幣 <span class="total_cost"></span> 元</h6>
+          <button onclick="onSubmit()" class="submit_btn">確認訂購並付款</button>
         </div>
       </div>
     </section>
@@ -117,7 +138,7 @@
       <p>COPYRIGHT © 2022 台北一日遊</p>
     </footer>
   </div>
-
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.15.0"></script>
   <script type="module" src="/public/js/nav/nav_setting.js"></script>
   <script type="module" src="/public/js/booking/booking.js"></script>
 </body>

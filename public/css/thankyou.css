@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+.wrapper {
+  display: block;
+}
+.wrapper section {
+  width: 100%;
+  background: #fff;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper section .text_box {
+  margin-top: 30px;
+  text-align: center;
+  line-height: 30px;
+  color: #666666;
+}
+.wrapper section .text_box .order_number {
+  margin: 10px 0;
+  letter-spacing: 0.15em;
+}
+.wrapper footer {
+  width: 100%;
+  background: #757575;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.wrapper footer.empty {
+  align-items: flex-start;
+  position: fixed;
+  height: 100vh;
+  z-index: -1;
+}
+.wrapper footer.empty p {
+  margin-top: 52px;
+}
+.wrapper footer p {
+  width: 100%;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 1200px) {
+  nav {
+    justify-content: start !important;
+    width: 100% !important;
+  }
+  nav .nav_bar {
+    width: 100vw !important;
+    display: inline !important;
+    padding: 0 20px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .nav_box {
+    height: 54px !important;
+  }
+}/*# sourceMappingURL=thankyou.css.map */

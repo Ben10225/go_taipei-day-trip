@@ -6,6 +6,9 @@ let keywordValue = "";
 let isload = false;
 let showCt = 0;
 
+const wait = document.querySelector(".wait");
+
+
 /*  infiniteScroll  */
 const target = document.querySelector('.target');
 
@@ -115,6 +118,9 @@ function catchAttractions(pg, keyword){
   })
   .then((response) => response.json())
   .then((data) => {
+    if(pg === 0){
+      wait.remove();
+    }
     if(data.error){
       createError(data.message);
       isload = true;
@@ -139,7 +145,6 @@ function catchAttractions(pg, keyword){
 
 /*  create DOM with appendChild  */
 function createDOM(data, i, index){
-  
   // preload
   let link = document.createElement('link');
   link.href = data.data[i].images[0];

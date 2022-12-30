@@ -126,5 +126,18 @@ func DeleteBooking(bid int) bool {
 		return false
 	}
 	return true
+}
 
+func Get_user_info_by_uuid(uuid string) []string {
+	db := Db
+	var userNameEmail struct {
+		Name  string
+		Email string
+	}
+	err := db.Table("users As u").Select("u.name, u.email").Where("uuid=?", uuid).First(&userNameEmail).Error
+	if err != nil {
+		return nil
+	}
+	result := []string{userNameEmail.Name, userNameEmail.Email}
+	return result
 }

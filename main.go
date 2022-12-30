@@ -22,6 +22,9 @@ func main() {
 	router.GET("/", handlers.Index)
 	router.GET("/attraction/:id", handlers.AttractionPage)
 	router.GET("/booking", handlers.BookingPage)
+	router.GET("/thankyou", handlers.ThankyouPage)
+	router.GET("/member", handlers.MemberPage)
+
 	router.GET("/api/attractions", api.Attractions)
 	router.GET("/api/attraction/:id", api.Attraction)
 	router.GET("/api/categories", api.Categories)
@@ -33,7 +36,10 @@ func main() {
 	router.GET("/api/user/auth/cookie", api.GetReserveData)
 
 	router.GET("/api/booking", api.GetBooking)
+	router.GET("/api/booking/getinfo", api.GetUserInfo)
 	router.POST("/api/booking", api.CreateBooking)
 	router.DELETE("/api/booking", api.DeleteBooking)
+
+	router.POST("/api/orders", api.CreateOrder)
 	router.Run(portNumber)
 }

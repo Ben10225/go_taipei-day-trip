@@ -205,6 +205,24 @@
   font-weight: 700;
 }
 
+.credit_row {
+  margin: 5px auto;
+}
+.credit_row label {
+  position: relative;
+  top: -20px;
+}
+.credit_row .tpfield {
+  height: 40px;
+  width: 190px;
+  border: 1px solid #E8E8E8;
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 5px;
+  display: inline-block;
+  transition: border 0.7s;
+}
+
 @media screen and (max-width: 1200px) {
   nav {
     justify-content: start !important;

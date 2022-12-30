@@ -249,4 +249,111 @@
 }
 .wrapper .nav_box {
   height: 54px;
+}
+.wrapper .wait {
+  width: 100%;
+  height: 100%;
+  background: #e8e8e8;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 90;
+}
+.wrapper .wait .row {
+  position: relative;
+  top: 130px;
+  display: flex;
+  justify-content: center;
+}
+.wrapper .wait .row h1 {
+  color: #666;
+}
+.wrapper .wait .row .animation {
+  position: relative;
+  left: 8px;
+  top: -26px;
+  width: 100px;
+  height: 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-animation: waitAni 1.5s infinite;
+          animation: waitAni 1.5s infinite;
+  transform: scale(0.6);
+}
+@-webkit-keyframes waitAni {
+  1% {
+    background-image: url("../images/waiting/ani1.svg");
+  }
+  9% {
+    background-image: url("../images/waiting/ani2.svg");
+  }
+  18% {
+    background-image: url("../images/waiting/ani3.svg");
+  }
+  27% {
+    background-image: url("../images/waiting/ani4.svg");
+  }
+  36% {
+    background-image: url("../images/waiting/ani5.svg");
+  }
+  45% {
+    background-image: url("../images/waiting/ani6.svg");
+  }
+  54% {
+    background-image: url("../images/waiting/ani7.svg");
+  }
+  63% {
+    background-image: url("../images/waiting/ani8.svg");
+  }
+  72% {
+    background-image: url("../images/waiting/ani9.svg");
+  }
+  81% {
+    background-image: url("../images/waiting/ani10.svg");
+  }
+  90% {
+    background-image: url("../images/waiting/ani11.svg");
+  }
+  100% {
+    background-image: url("../images/waiting/ani12.svg");
+  }
+}
+@keyframes waitAni {
+  1% {
+    background-image: url("../images/waiting/ani1.svg");
+  }
+  9% {
+    background-image: url("../images/waiting/ani2.svg");
+  }
+  18% {
+    background-image: url("../images/waiting/ani3.svg");
+  }
+  27% {
+    background-image: url("../images/waiting/ani4.svg");
+  }
+  36% {
+    background-image: url("../images/waiting/ani5.svg");
+  }
+  45% {
+    background-image: url("../images/waiting/ani6.svg");
+  }
+  54% {
+    background-image: url("../images/waiting/ani7.svg");
+  }
+  63% {
+    background-image: url("../images/waiting/ani8.svg");
+  }
+  72% {
+    background-image: url("../images/waiting/ani9.svg");
+  }
+  81% {
+    background-image: url("../images/waiting/ani10.svg");
+  }
+  90% {
+    background-image: url("../images/waiting/ani11.svg");
+  }
+  100% {
+    background-image: url("../images/waiting/ani12.svg");
+  }
 }/*# sourceMappingURL=base.css.map */

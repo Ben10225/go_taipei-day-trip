@@ -17,15 +17,13 @@ window.eveningClick = attr.eveningClick;
 window.clickBtnOpen = attr.clickBtnOpen;
 window.pushRepeatBooking = attr.pushRepeatBooking;
 
-
+nav.loadWaitingSvg();
 nav.hideDisplayBug();
 
 (async()=>{
   await nav.auth(false, "attraction");
   let bool = nav.signStatus();
   attr.signStatus(bool);
-  // await attr.getReserveData();
-  // attr.clickBtnOpenIfValue();
 })()
 
 

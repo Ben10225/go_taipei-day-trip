@@ -2,6 +2,7 @@ import bookingJS from "../booking/booking_func.js"
 import attr from "../attraction/attr_func.js"
 
 // dom
+const ul = document.querySelector("ul");
 const signInbtn = document.querySelector(".btn.si");
 const signUpbtn = document.querySelector(".btn.su");
 const signInPageBox = document.querySelector(".page_box.si");
@@ -10,12 +11,14 @@ const signInMsg = document.querySelector(".msg.si");
 const signUpMsg = document.querySelector(".msg.su");
 const signInUpLi = document.querySelector(".sign_in_up");
 const signOutLi = document.querySelector(".sign_out");
+const memberIcon = document.querySelector(".member_icon");
 const signPage = document.querySelector(".sign_page");
 const schedule = document.querySelector(".schedule");
 const SIcautionBox = document.querySelector(".caution_box.si");
 const SUcautionBox = document.querySelector(".caution_box.su");
 
 const repeatPageBox = document.querySelector(".page_box_c.repeat");
+const wait = document.querySelector(".wait");
 
 // input
 const SUName = document.querySelector(".name.su");
@@ -129,7 +132,6 @@ function pressEnter(e, callback, status){
 
 /*  sign in  */
 function signIn(){
-
   let validatedEmail = EmailPattern.test(SIEmail.value);
   let validatedPwd = PwdPattern.test(SIPwd.value);
 
@@ -248,25 +250,33 @@ function auth(needRefresh, page){
   return fetch("/api/user/auth")
   .then((response) => response.json())
   .then((data) => {
+    ul.style = "display: block;"
     schedule.classList.remove("li_out");
     if(data.ok){
       signOutLi.classList.remove("li_out");
+      memberIcon.classList.remove("li_out");
+      memberIconInit();
       userSignIn = true;
       if(page === "attraction"){
         attr.getReserveData();
+        wait.remove();
       }else if(page === "booking"){
         bookingJS.getBooking();
-        return;
+      }else if(page === "thankyou"){
+        wait.remove();
       }
     }
     if(data.error){
       signInUpLi.classList.remove("li_out");
       if(page === "attraction"){
+        wait.remove();
         attr.reserveBtn.style.opacity = "1";
         attr.reserveBtn.style.pointerEvents = "auto";
         return;
-      }else if(page === "booking"){
-        window.location.href = "/";
+      }else if(page === "booking" || page === "thankyou" || page === "member"){
+        window.location = "/";
+      }else{
+        wait.remove();
       }
     }
     if(needRefresh){
@@ -360,6 +370,24 @@ function bookingRepeatOut(){
 }
 
 
+function memberIconInit(){
+  memberIcon.onclick = ()=>{
+    window.location = "/member";
+  }
+}
+
+
+function loadWaitingSvg(){
+  for(let i=0;i<12;i++){
+  // preload
+  let link = document.createElement('link');
+  link.href = `/public/images/waiting/ani${i+1}.svg`;
+  link.rel = "preload";
+  link.as = "image";
+  document.head.appendChild(link);
+  }
+}
+
 
 export default {
   signIn,
@@ -374,4 +402,6 @@ export default {
   toBooking,
   bookingRepeatIn,
   bookingRepeatOut,
+  memberIconInit,
+  loadWaitingSvg,
 }

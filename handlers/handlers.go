@@ -17,3 +17,11 @@ func AttractionPage(c *gin.Context) {
 func BookingPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "booking.html", nil)
 }
+
+func ThankyouPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "thankyou.html", nil)
+}
+
+func MemberPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "member.html", nil)
+}

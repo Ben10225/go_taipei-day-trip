@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>會員頁面</title>
+
+  <link rel="stylesheet" href="/public/css/base.css">
+  <link rel="stylesheet" href="/public/css/member.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="sign_page">
+      <div class="page_box si">
+        <div class="top_decorate"></div>
+        <h2 class="h2 si">登入會員帳號</h2>
+        <div class="exit_icon si"></div>
+        <input class="email si" type="email" placeholder="輸入電子信箱">
+        <input class="pwd si" type="password" placeholder="輸入密碼 需含小寫英文及數字">
+        <button class="btn si" onclick="signIn();">登入帳戶</button>
+        <div class="caution_box si">
+          <p class="msg si"></p>
+        </div>
+        <p class="p si">還沒有帳戶？<span class="to_sign_up" onclick="showSignUp();">點此註冊</span></p>
+      </div>
+      <div class="page_box su">
+        <div class="top_decorate"></div>
+        <h2 class="h2 su">註冊會員帳號</h2>
+        <div class="exit_icon su"></div>
+        <input class="name su" type="text" placeholder="輸入姓名">
+        <input class="email su" type="email" placeholder="輸入電子信箱">
+        <input class="pwd su" type="password" placeholder="輸入密碼 需含小寫英文及數字">
+        <button class="btn su" onclick="signUp();">註冊新帳戶</button>
+        <div class="caution_box su">
+          <p class="msg su"></p>
+        </div>
+        <p class="p su">已經有帳戶了？<span class="to_sign_in" onclick="toggleSignIn();">點此登入</span></p>
+      </div>
+    </div>
+    <nav>
+      <div class="nav_bar">
+        <a href="/">台北一日遊</a>
+        <ul>
+          <li class="member_icon li_out">
+            <i class="fa-solid fa-user-gear"></i>
+          </li>
+          <li class="schedule li_out" onclick="toBooking()">預定行程</li>
+          <li class="sign_in_up li_out" onclick="showSignIn();">登入/註冊</li>
+          <li class="sign_out li_out" onclick="signOut();">登出系統</li>
+        </ul>
+      </div>
+    </nav>
+    <div class="nav_box"></div>
+    <div class="wait">
+      <div class="row">
+        <h1>載入中</h1>
+        <div class="animation"></div>
+      </div>
+    </div>
+    <section>
+      <div class="member_box">
+        <div class="img_box">
+          <div class="img_wait">
+            <h3>上傳中</h3>
+          </div>
+          <div class="img">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <input type="file" class="upload_img" accept="image/gif, image/jpeg, image/png">
+        </div>
+        <div class="user_box">
+          <div class="input_row">
+            <h6 class="email_label">email</h6>
+            <input type="text" class="email_input" disabled>
+          </div>
+          <div class="input_row">
+            <h6 class="name_label">name</h6>
+            <input type="text" class="name_input">
+          </div>
+          <button class="save_name" onclick="changeUserName()">Save</button>
+        </div>
+      </div>
+      <div class="history_box">
+        <h2 class="history_title">歷史訂單</h2>
+        <!-- <div class="order">
+          <div class="order_item">
+            <h3 class="order_number">order_number</h3>
+            <h3 class="time">time</h3>
+          </div>
+          <div class="details">
+            <div class="contact_info">
+              <h5>訂單金額</h5>
+              <p>總金額： NT <span class="total_price">5500</span>$</p>
+              <h5>聯絡人</h5>
+              <p>姓名： Ben</p>
+              <p>信箱： b@b</p>
+              <p>電話： 0911222333</p>
+            </div>
+            <hr class="big_hr">
+            <div class="attraction_info">
+              <h5 class="order_index">行程 <span>1</span></h5>
+              <p>景點： 大稻埕碼頭</p>
+              <p>時間： 早上 7 點到下午 3 點</p>
+              <p>費用： NT <span class="price">2000</span>$</p>
+              <p>地點： 臺北市 大同區環河北路一段</p>
+              <div class="arrow_down">
+                <i class="fa-solid fa-chevron-down"></i>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <div class="attraction_img attraction_img_hide"></div>
+              <hr>
+              <h5 class="order_index">行程 <span>2</span></h5>
+              <p>景點： 大稻埕碼頭</p>
+              <p>時間： 早上 7 點到下午 3 點</p>
+              <p>費用： NT <span class="price">2000</span>$</p>
+              <p>地點： 臺北市 大同區環河北路一段</p>
+              <div class="arrow_down">
+                <i class="fa-solid fa-chevron-down"></i>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <div class="attraction_img attraction_img_hide"></div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </section>
+    <footer>
+      <p>COPYRIGHT © 2022 台北一日遊</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/public/js/nav/nav_setting.js"></script>
+  <script type="module" src="/public/js/member/member.js"></script>
+</body>
+</html>
