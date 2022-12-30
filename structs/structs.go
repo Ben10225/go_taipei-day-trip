@@ -46,3 +46,8 @@ type GetBookingData struct {
 	Time  string
 	Price string
 }
+
+type TapPayRes struct {
+	Status int    `json:"status"`
+	Msg    string `json:"msg"`
+}

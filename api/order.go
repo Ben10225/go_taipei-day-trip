@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"taipei-day-trip/structs"
 	"taipei-day-trip/utils"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 	uuid := payload.Uuid
-	fmt.Println(uuid)
+	fmt.Println("uuid", uuid)
 
 	req := struct {
 		Prime string
@@ -103,36 +104,32 @@ func CreateOrder(c *gin.Context) {
 	}
 
 	reqNew, err := http.NewRequest("POST", url, bytes.NewBuffer(bodyBytes))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	reqNew.Header.Add("Content-Type", "application/json")
 	reqNew.Header.Add("x-api-key", partner_key)
 
 	client := &http.Client{}
 	rsp, err := client.Do(reqNew)
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer fmt.Println(*rsp)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	defer rsp.Body.Close()
 
 	body, err := ioutil.ReadAll(rsp.Body)
-	fmt.Printf(string(body))
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// fmt.Println(rsp.Body)
+	// fmt.Println(string(body))
 
-	// decoder := json.NewDecoder(rsp.Body)
-	// fmt.Println(decoder)
+	s := string(body)
 
-	// body, err := ioutil.ReadAll(rsp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// err = json.Unmarshal(body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	res := structs.TapPayRes{}
+	json.Unmarshal([]byte(s), &res)
+	fmt.Println(res.Status, res.Msg)
 
 }
