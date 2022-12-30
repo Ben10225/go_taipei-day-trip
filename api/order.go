@@ -1,7 +1,11 @@
 package api
 
 import (
+	"bytes"
+	b64 "encoding/base64"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"taipei-day-trip/utils"
@@ -57,8 +61,78 @@ func CreateOrder(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(req)
 	c.JSON(http.StatusOK, gin.H{
 		"ok": true,
 	})
+
+	prime := req.Prime
+	order := req.Order
+
+	if prime == "" || &order == nil || len(order.Trips) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "資料輸入錯誤",
+		})
+	}
+
+	url := "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+	partner_key := utils.EnvGet("PARTNER_KEY")
+
+	// headers := gin.H{
+	// 	"Content-Type": "application/json",
+	// 	"x-api-key":    partner_key,
+	// }
+
+	data := gin.H{
+		"prime":       prime,
+		"partner_key": partner_key,
+		"merchant_id": "bbnn669999_ESUN",
+		"details":     "TapPay Taipei-day-trip orders",
+		"amount":      req.Order.TotalPrice,
+		"cardholder": gin.H{
+			"phone_number": req.Order.Contact.Phone,
+			"name":         b64.StdEncoding.EncodeToString([]byte(req.Order.Contact.Name)),
+			"email":        req.Order.Contact.Email,
+		},
+		"remember": true,
+	}
+
+	bodyBytes, err := json.Marshal(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	reqNew, err := http.NewRequest("POST", url, bytes.NewBuffer(bodyBytes))
+
+	reqNew.Header.Add("Content-Type", "application/json")
+	reqNew.Header.Add("x-api-key", partner_key)
+
+	client := &http.Client{}
+	rsp, err := client.Do(reqNew)
+
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer fmt.Println(*rsp)
+
+	defer rsp.Body.Close()
+
+	body, err := ioutil.ReadAll(rsp.Body)
+	fmt.Printf(string(body))
+
+	// fmt.Println(rsp.Body)
+
+	// decoder := json.NewDecoder(rsp.Body)
+	// fmt.Println(decoder)
+
+	// body, err := ioutil.ReadAll(rsp.Body)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// err = json.Unmarshal(body)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
 }

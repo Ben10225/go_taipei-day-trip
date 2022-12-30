@@ -2,9 +2,9 @@ package db
 
 import (
 	"log"
-	"os"
 
-	"github.com/joho/godotenv"
+	"taipei-day-trip/utils"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -18,7 +18,8 @@ func InitDb() *gorm.DB {
 
 func connectDB() *gorm.DB {
 	var err error
-	dsn := envGet("DB_USERNAME") + ":" + envGet("DB_PASSWORD") + "@tcp" + "(" + envGet("DB_HOST") + ":" + envGet("DB_PORT") + ")/" + envGet("DB_NAME") + "?" + "parseTime=true&loc=Local"
+
+	dsn := utils.EnvGet("DB_USERNAME") + ":" + utils.EnvGet("DB_PASSWORD") + "@tcp" + "(" + utils.EnvGet("DB_HOST") + ":" + utils.EnvGet("DB_PORT") + ")/" + utils.EnvGet("DB_NAME") + "?" + "parseTime=true&loc=Local"
 	// fmt.Println("dsn : ", dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
@@ -26,12 +27,4 @@ func connectDB() *gorm.DB {
 		log.Println(err)
 	}
 	return db
-}
-
-func envGet(s string) string {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-	return os.Getenv(s)
 }
