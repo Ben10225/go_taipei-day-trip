@@ -70,7 +70,6 @@ func SignUp(c *gin.Context) {
 }
 
 func SignIn(c *gin.Context) {
-	// var req structs.UserData
 	var req struct {
 		Email    string
 		Password string

@@ -81,7 +81,7 @@ function deleteBooking(bid, status){
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "bid": parseInt(bid),
+      "bid": bid,
     }),
   })
   .then((response) => response.json())

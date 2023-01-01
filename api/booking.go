@@ -12,7 +12,7 @@ import (
 func CreateBooking(c *gin.Context) {
 	token, err := c.Cookie("token")
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "未登入狀態",
 		})
@@ -21,7 +21,7 @@ func CreateBooking(c *gin.Context) {
 	payload, err := utils.ParseToken(token)
 	if err != nil {
 		c.SetCookie("token", "", -1, "/", "", false, true)
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "未登入狀態",
 		})
@@ -46,7 +46,7 @@ func CreateBooking(c *gin.Context) {
 			"ok": true,
 		})
 	} else if insertMsg == "此行程已存在" {
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "此行程已存在",
 		})
@@ -56,7 +56,7 @@ func CreateBooking(c *gin.Context) {
 func GetBooking(c *gin.Context) {
 	token, err := c.Cookie("token")
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "未登入狀態",
 		})
@@ -65,7 +65,7 @@ func GetBooking(c *gin.Context) {
 	payload, err := utils.ParseToken(token)
 	if err != nil {
 		c.SetCookie("token", "", -1, "/", "", false, true)
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "未登入狀態",
 		})
@@ -107,7 +107,7 @@ func GetBooking(c *gin.Context) {
 func DeleteBooking(c *gin.Context) {
 	token, err := c.Cookie("token")
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "未登入狀態",
 		})
@@ -116,25 +116,42 @@ func DeleteBooking(c *gin.Context) {
 	_, err = utils.ParseToken(token)
 	if err != nil {
 		c.SetCookie("token", "", -1, "/", "", false, true)
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "未登入狀態",
 		})
 		return
 	}
 	req := struct {
-		Bid int
+		Bid    []int
+		Status string
 	}{}
 	err = c.BindJSON(&req)
 	if err != nil {
 		log.Fatal(err)
 	}
-	status := db.DeleteBooking(req.Bid)
-	if status {
-		c.JSON(http.StatusOK, gin.H{
-			"ok": true,
-		})
+	if len(req.Bid) == 1 {
+		status := db.DeleteBooking(req.Bid, "one")
+		if status {
+			c.JSON(http.StatusOK, gin.H{
+				"ok": true,
+			})
+			return
+		}
+	} else if len(req.Bid) > 1 {
+		status := db.DeleteBooking(req.Bid, "multiple")
+		if status {
+			c.JSON(http.StatusOK, gin.H{
+				"pass": true,
+			})
+			return
+		}
 	}
+
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"error":   true,
+		"message": "伺服器錯誤",
+	})
 }
 
 func GetUserInfo(c *gin.Context) {

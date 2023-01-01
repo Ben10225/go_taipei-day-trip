@@ -65,7 +65,7 @@ function createHistoryDOM(data){
       <div class="order">
         <div class="order_item">
           <h3 class="order_number">${element.orderNumber}</h3>
-          <h3 class="time">${element.time.slice(0,-3)}</h3>
+          <h3 class="time">${element.time}</h3>
         </div>
         <div class="details">
           <div class="contact_info">
@@ -323,7 +323,6 @@ function uploadInit(){
 
 
 async function upload(e){
-  userIcon.remove();
   let uploadImg = e.target.files || e.dataTransfer.files;
   imgWait.style = "opacity: 0.7";
 
@@ -339,6 +338,7 @@ async function upload(e){
   })
   .then((response) => {
     if(response.ok){
+      userIcon.remove();
       imgWait.style = "opacity: 0 !important";
       img.style = `background-image: url('${window.URL.createObjectURL(uploadImg[0])}');`
       window.URL.revokeObjectURL(uploadImg[0]);

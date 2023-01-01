@@ -41,5 +41,9 @@ func main() {
 	router.DELETE("/api/booking", api.DeleteBooking)
 
 	router.POST("/api/orders", api.CreateOrder)
+
+	router.GET("/api/member", api.GetHistory)
+	router.GET("/api/member/getimg", api.GetImg)
+	router.POST("/api/member/name", api.ChangeUserName)
 	router.Run(portNumber)
 }

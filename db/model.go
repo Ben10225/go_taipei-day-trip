@@ -98,7 +98,7 @@ func CheckAndInsertBooking(uuid, attractionId, date, time string, price int, sta
 	err := db.Table("bookings").Where("uuid=? and date=? and time=?", uuid, date, time).First(&booking).Error
 	if err != nil {
 		insertInfo := structs.BookingData{Uuid: uuid, Attraction_id: attractionId, Date: date, Time: time, Price: price}
-		err = db.Table("bookings").Create(&insertInfo).Error
+		db.Table("bookings").Create(&insertInfo)
 		if err != nil {
 			log.Println(err)
 		}
@@ -117,13 +117,21 @@ func GetBookings(uuid string) []structs.BookingDetails {
 	return bookingRetails
 }
 
-func DeleteBooking(bid int) bool {
+func DeleteBooking(bid []int, s string) bool {
 	db := Db
 	var booking structs.BookingData
-	err := db.Table("bookings").Where("bid=?", bid).Delete(&booking).Error
-	if err != nil {
-		log.Fatal(err)
-		return false
+	if s == "one" {
+		err := db.Table("bookings").Where("bid=?", bid[0]).Delete(&booking).Error
+		if err != nil {
+			log.Fatal(err)
+			return false
+		}
+	} else if s == "multiple" {
+		err := db.Table("bookings").Where("bid in ?", bid).Delete(&booking).Error
+		if err != nil {
+			log.Fatal(err)
+			return false
+		}
 	}
 	return true
 }
@@ -140,4 +148,84 @@ func Get_user_info_by_uuid(uuid string) []string {
 	}
 	result := []string{userNameEmail.Name, userNameEmail.Email}
 	return result
+}
+
+func CreatePayment(orderNumber, uuid string, totalPrice int, contactName, contactEmail, contactPhone string, status bool) int {
+	db := Db
+	insertPayment := structs.Payment{
+		Order_number:  orderNumber,
+		Uuid:          uuid,
+		Total_price:   totalPrice,
+		Contact_name:  contactName,
+		Contact_email: contactEmail,
+		Contact_phone: contactPhone,
+		Status:        status,
+	}
+	err := db.Table("payment").Create(&insertPayment).Error
+	if err != nil {
+		log.Println(err)
+	}
+	var paymentId int
+	err = db.Table("payment").Select("LAST_INSERT_ID(payment_id)").Order("LAST_INSERT_ID(payment_id) DESC").Limit(1).Find(&paymentId).Error
+	// db.Raw("SELECT LAST_INSERT_ID(payment_id) from payment order by LAST_INSERT_ID(payment_id) DESC LIMIT 1").Scan(&paymentId)
+	if err != nil {
+		log.Println(err)
+	}
+	return paymentId
+}
+
+func CreateTrips(paymentId int, orderNumber string, trips []structs.Orders_trips) {
+	db := Db
+
+	for _, trip := range trips {
+		attrPrice, _ := strconv.Atoi(trip.Attraction.Price)
+		insertTrips := structs.Trips{
+			Tid:                paymentId,
+			Trip_order_number:  orderNumber,
+			Attraction_id:      trip.Attraction.Id,
+			Attraction_name:    trip.Attraction.Name,
+			Attraction_address: trip.Attraction.Address,
+			Attraction_image:   trip.Attraction.Image,
+			Attraction_price:   attrPrice,
+			Attraction_date:    trip.Date,
+			Attraction_time:    trip.Time,
+		}
+		err := db.Table("trips").Create(&insertTrips).Error
+		if err != nil {
+			log.Println(err)
+		}
+	}
+}
+
+func GetUserOrders(uuid string) []structs.GetPayment {
+	db := Db
+	var payments []structs.GetPayment
+	err := db.Table("payment").Select("payment_id, order_number, total_price, contact_name, contact_email, contact_phone, time").Where("uuid=?", uuid).Group("payment_id").Order("payment_id DESC").Find(&payments).Error
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	return payments
+}
+
+func GetUserOrdersAttraction(tid int, tnum string) []structs.Trips {
+	db := Db
+	var attractionInfos []structs.Trips
+	err := db.Table("trips").Select("attraction_name, attraction_address, attraction_image, attraction_price ,attraction_date, attraction_time").Where("tid=? AND trip_order_number=?", tid, tnum).Order("tid DESC").Find(&attractionInfos).Error
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	return attractionInfos
+}
+
+func UpdateUserName(uuid, name string) bool {
+	db := Db
+
+	err := db.Table("users").Where("uuid=?", uuid).Update("name", name).Error
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	return true
 }

@@ -2,12 +2,12 @@ package api
 
 import (
 	"bytes"
-	b64 "encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
+	"taipei-day-trip/db"
 	"taipei-day-trip/structs"
 	"taipei-day-trip/utils"
 
@@ -33,43 +33,41 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 	uuid := payload.Uuid
-	fmt.Println("uuid", uuid)
 
-	req := struct {
-		Prime string
-		Order struct {
-			TotalPrice string
-			Trips      []struct {
-				Attraction struct {
-					Id      string
-					Name    string
-					Address string
-					Image   string
-					Price   string
-				}
-				Date  string
-				Price string
-			}
-			Contact struct {
-				Name  string
-				Email string
-				Phone string
-			}
-		}
-	}{}
+	var req structs.Orders
+	// req := struct {
+	// 	Prime string
+	// 	Order struct {
+	// 		TotalPrice string
+	// 		Trips      []struct {
+	// 			Attraction struct {
+	// 				Id      string
+	// 				Name    string
+	// 				Address string
+	// 				Image   string
+	// 				Price   string
+	// 			}
+	// 			Date  string
+	// 			Price string
+	// 			Time string
+	// 		}
+	// 		Contact struct {
+	// 			Name  string
+	// 			Email string
+	// 			Phone string
+	// 		}
+	// 	}
+	// }{}
 
 	err = c.BindJSON(&req)
 	if err != nil {
 		log.Fatal(err)
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"ok": true,
-	})
 
 	prime := req.Prime
-	order := req.Order
+	order := &req.Order
 
-	if prime == "" || &order == nil || len(order.Trips) == 0 {
+	if prime == "" || order == nil || len(order.Trips) == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "資料輸入錯誤",
@@ -92,8 +90,9 @@ func CreateOrder(c *gin.Context) {
 		"amount":      req.Order.TotalPrice,
 		"cardholder": gin.H{
 			"phone_number": req.Order.Contact.Phone,
-			"name":         b64.StdEncoding.EncodeToString([]byte(req.Order.Contact.Name)),
-			"email":        req.Order.Contact.Email,
+			// "name":         b64.StdEncoding.EncodeToString([]byte(req.Order.Contact.Name)),
+			"name":  req.Order.Contact.Name,
+			"email": req.Order.Contact.Email,
 		},
 		"remember": true,
 	}
@@ -124,12 +123,70 @@ func CreateOrder(c *gin.Context) {
 		log.Fatal(err)
 	}
 
-	// fmt.Println(string(body))
-
 	s := string(body)
 
 	res := structs.TapPayRes{}
 	json.Unmarshal([]byte(s), &res)
-	fmt.Println(res.Status, res.Msg)
 
+	orderNumber := utils.GenerateOrderNumber()
+	totalPrice, _ := strconv.Atoi(order.TotalPrice)
+
+	var paymentId int
+	var success string
+
+	if res.Status != 0 {
+		p := structs.Payment{
+			Order_number:  orderNumber,
+			Uuid:          uuid,
+			Total_price:   totalPrice,
+			Contact_name:  order.Contact.Name,
+			Contact_email: order.Contact.Email,
+			Contact_phone: order.Contact.Phone,
+			Status:        false,
+		}
+		paymentId = db.CreatePayment(
+			p.Order_number,
+			p.Uuid,
+			p.Total_price,
+			p.Contact_name,
+			p.Contact_email,
+			p.Contact_phone,
+			p.Status,
+		)
+		success = "付款失敗"
+
+	} else {
+		p := structs.Payment{
+			Order_number:  orderNumber,
+			Uuid:          uuid,
+			Total_price:   totalPrice,
+			Contact_name:  order.Contact.Name,
+			Contact_email: order.Contact.Email,
+			Contact_phone: order.Contact.Phone,
+			Status:        true,
+		}
+		paymentId = db.CreatePayment(
+			p.Order_number,
+			p.Uuid,
+			p.Total_price,
+			p.Contact_name,
+			p.Contact_email,
+			p.Contact_phone,
+			p.Status,
+		)
+		success = "付款成功"
+	}
+
+	db.CreateTrips(paymentId, orderNumber, order.Trips)
+	result := strconv.Itoa(paymentId)
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": gin.H{
+			"number": orderNumber + "-" + result,
+			"payment": gin.H{
+				"status":  res.Status,
+				"message": success,
+			},
+		},
+	})
 }

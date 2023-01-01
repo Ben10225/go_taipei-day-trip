@@ -12,7 +12,7 @@ window.toBooking = nav.toBooking;
 nav.loadWaitingSvg();
 nav.hideDisplayBug();
 thankyou.setValue();
-thankyou.getOrder(thankyou.value);
+// thankyou.getOrder(thankyou.value);
 
 (async()=>{
   await nav.auth(false, "thankyou");
