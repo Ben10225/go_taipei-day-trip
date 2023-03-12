@@ -35,29 +35,6 @@ func CreateOrder(c *gin.Context) {
 	uuid := payload.Uuid
 
 	var req structs.Orders
-	// req := struct {
-	// 	Prime string
-	// 	Order struct {
-	// 		TotalPrice string
-	// 		Trips      []struct {
-	// 			Attraction struct {
-	// 				Id      string
-	// 				Name    string
-	// 				Address string
-	// 				Image   string
-	// 				Price   string
-	// 			}
-	// 			Date  string
-	// 			Price string
-	// 			Time string
-	// 		}
-	// 		Contact struct {
-	// 			Name  string
-	// 			Email string
-	// 			Phone string
-	// 		}
-	// 	}
-	// }{}
 
 	err = c.BindJSON(&req)
 	if err != nil {
@@ -76,11 +53,6 @@ func CreateOrder(c *gin.Context) {
 
 	url := "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
 	partner_key := utils.EnvGet("PARTNER_KEY")
-
-	// headers := gin.H{
-	// 	"Content-Type": "application/json",
-	// 	"x-api-key":    partner_key,
-	// }
 
 	data := gin.H{
 		"prime":       prime,
