@@ -76,7 +76,7 @@ Here is the testing credit card info for booking page.
 
 ## Architecture
 
-<img src="https://github.com/Ben10225/go_taipei-day-trip/blob/develop/public/images/tp-structure_%E5%B7%A5%E4%BD%9C%E5%8D%80%E5%9F%9F%201.jpg" width=600 />
+<img src="https://github.com/Ben10225/go_taipei-day-trip/blob/develop/public/images/tp-structure.jpg" width=600 />
 
 ## Database Schema
 
